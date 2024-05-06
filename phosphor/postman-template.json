@@ -1,0 +1,1239 @@
+{
+  "info": {
+    "_postman_id": "43d23665-bb8a-450e-8427-12d42bd465d9",
+    "name": "KUDOnCHAIN",
+    "description": "A set of APIs to create, manage and distribute NFTs on the KUDOnCHAIN platform.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "34743949"
+  },
+  "item": [
+    {
+      "name": "Airdrop 1 NFT to a series of wallet or email addresses (using ERC1155)",
+      "item": [
+        {
+          "name": "1. Create the collection and contract",
+          "item": [
+            {
+              "name": "Create a new collection using a ERC1155 contract",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.collectionVariables.set(\"Collection_Id\", pm.response.json().id);",
+                      "  pm.collectionVariables.set(\"Deployment_Transaction_Id\", pm.response.json().deployment.transaction_id);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"KUDOnCHAIN Consensys Core Values  Collection - {{$randomLoremWords}}\",\n    \"description\": \"{{$randomLoremParagraph}}\",\n    \"media\": {\n        \"thumbnail_image_url\": \"https://nftprodstorage.blob.core.windows.net/public/QmSdxwBWr19pGzZfDsS3PPkdBuVF1mfWAFnhVXAdN2CYbr/phosphor-collection-logo.png\"\n    },\n    \"deployment_request\": {\n        \"network_id\": {{Network_Id}},\n        \"type\": \"PLATFORM\",\n        \"token_id_assignment_strategy\": \"AUTOMATIC\",\n        \"platform\": {\n            \"variant\": \"FlexibleERC1155\",\n            \"symbol\": \"MY_NFT_CONTRACT_SYMBOL\",\n            \"owner\": \"{{My_Owner_Wallet_Address}}\"\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/collections",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "collections"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check collection details",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/collections/:collection_id",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "collections", ":collection_id"],
+                  "variable": [
+                    {
+                      "key": "collection_id",
+                      "value": "{{Collection_Id}}",
+                      "uuid": "c892f3d5-0586-45e6-ba4b-6a616e4bd915"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check contract deployment status",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/collections/:collection_id/deployment-request",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": [
+                    "v1",
+                    "collections",
+                    ":collection_id",
+                    "deployment-request"
+                  ],
+                  "variable": [
+                    {
+                      "key": "collection_id",
+                      "value": "{{Collection_Id}}",
+                      "uuid": "4236837e-63ec-4745-bd84-3f5924cd0df0"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check contract creation transaction details",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/transactions/:transaction_id",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "transactions", ":transaction_id"],
+                  "variable": [
+                    {
+                      "key": "transaction_id",
+                      "value": "{{Deployment_Transaction_Id}}",
+                      "uuid": "84deb326-0b48-4178-9310-7a1e44bfc118"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "2. Add 1 NFT item to the collection",
+          "item": [
+            {
+              "name": "Add new item to collection",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.collectionVariables.set(\"Item_Id\", pm.response.json().id);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"collection_id\": \"{{Collection_Id}}\",\n    \"attributes\": {\n        \"title\": \"Quickstart NFT\",\n        \"description\": \"{{$randomLoremParagraph}}\",\n        \"any trait 1\": \"One value\",\n        \"any trait 2\": \"Another value\",\n        \"image_url\": \"https://nftprodstorage.blob.core.windows.net/public/QmNYyf2H7CZ52QHZNY4KtKYduRKqBwnvkszFEYC4MRkdN6/phosphor-nft.png\"\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/items",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "items"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Lock item for airdrop",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"item_id\": \"{{Item_Id}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/items/lock",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "items", "lock"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check item details",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/items/:item_id",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "items", ":item_id"],
+                  "variable": [
+                    {
+                      "key": "item_id",
+                      "value": "{{Item_Id}}",
+                      "uuid": "19fd8a2c-bbb3-482a-b951-36bd416cfd81"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "3. Airdrop the NFT to multiple wallets",
+          "item": [
+            {
+              "name": "Create a mint request to wallet 1",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.collectionVariables.set(\"Mint_Transaction_Id\", pm.response.json().mint_requests[0].transaction_id);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"item_id\": \"{{Item_Id}}\",\n    \"quantity\": \"1\",\n    \"to_address\": \"<SET_ANY_WALLET_ADDRESS_HERE>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/mint-requests",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "mint-requests"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create another mint request to wallet 2",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.collectionVariables.set(\"Mint_Transaction_Id\", pm.response.json().transaction_id);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"item_id\": \"{{Item_Id}}\",\n    \"quantity\": \"3\",\n    \"to_address\": \"<SET_ANY_OTHER_WALLET_ADDRESS_HERE>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/mint-requests",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "mint-requests"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create a claim by email",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"item_id\": \"{{Item_Id}}\",\n    \"email\": \"<SET_ANY_EMAIL_ADDRESS_HERE>\",\n    \"quantity\": 1,\n    \"type\": \"MINT\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/email-claims",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "email-claims"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check mint transaction details",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/transactions/:transaction_id",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "transactions", ":transaction_id"],
+                  "variable": [
+                    {
+                      "key": "transaction_id",
+                      "value": "{{Mint_Transaction_Id}}",
+                      "uuid": "4be1054d-2a04-40e7-99a2-db61d69f1cd9"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Create a Free NFT Claim (using ERC1155)",
+      "item": [
+        {
+          "name": "1. Create the collection and contract",
+          "item": [
+            {
+              "name": "Create a new collection using a ERC1155 contract",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.collectionVariables.set(\"Collection_Id\", pm.response.json().id);",
+                      "  pm.collectionVariables.set(\"Deployment_Transaction_Id\", pm.response.json().deployment.transaction_id);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"KUDOnCHAIN Consensys Core Values  Collection - {{$randomLoremWords}}\",\n    \"description\": \"{{$randomLoremParagraph}}\",\n    \"media\": {\n        \"thumbnail_image_url\": \"https://nftprodstorage.blob.core.windows.net/public/QmSdxwBWr19pGzZfDsS3PPkdBuVF1mfWAFnhVXAdN2CYbr/phosphor-collection-logo.png\"\n    },\n    \"deployment_request\": {\n        \"network_id\": {{Network_Id}},\n        \"type\": \"PLATFORM\",\n        \"token_id_assignment_strategy\": \"AUTOMATIC\",\n        \"platform\": {\n            \"variant\": \"FlexibleERC1155\",\n            \"symbol\": \"MY_NFT_CONTRACT_SYMBOL\",\n            \"owner\": \"{{My_Owner_Wallet_Address}}\"\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/collections",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "collections"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check collection details",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/collections/:collection_id",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "collections", ":collection_id"],
+                  "variable": [
+                    {
+                      "key": "collection_id",
+                      "value": "{{Collection_Id}}",
+                      "uuid": "cddec812-272b-4003-b872-b84791b40887"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check contract deployment status",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/collections/:collection_id/deployment-request",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": [
+                    "v1",
+                    "collections",
+                    ":collection_id",
+                    "deployment-request"
+                  ],
+                  "variable": [
+                    {
+                      "key": "collection_id",
+                      "value": "{{Collection_Id}}",
+                      "uuid": "997e3879-ae84-4dcd-bc59-1ce57c9ad4cc"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check contract creation transaction details",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/transactions/:transaction_id",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "transactions", ":transaction_id"],
+                  "variable": [
+                    {
+                      "key": "transaction_id",
+                      "value": "{{Deployment_Transaction_Id}}",
+                      "uuid": "81d656a5-f1b6-4098-8418-e64ebbbc8582"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "2. Add 1 NFT item to the collection",
+          "item": [
+            {
+              "name": "Add new item to collection",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.collectionVariables.set(\"Item_Id\", pm.response.json().id);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"collection_id\": \"{{Collection_Id}}\",\n    \"attributes\": {\n        \"title\": \"Quickstart NFT\",\n        \"description\": \"{{$randomLoremParagraph}}\",\n        \"any trait 1\": \"One value\",\n        \"any trait 2\": \"Another value\",\n        \"image_url\": \"https://nftprodstorage.blob.core.windows.net/public/QmNYyf2H7CZ52QHZNY4KtKYduRKqBwnvkszFEYC4MRkdN6/phosphor-nft.png\"\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/items",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "items"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Lock item with a maximum supply",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"item_id\": \"{{Item_Id}}\",\n    \"max_supply\": \"20\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/items/lock",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "items", "lock"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check item details",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/items/:item_id",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "items", ":item_id"],
+                  "variable": [
+                    {
+                      "key": "item_id",
+                      "value": "{{Item_Id}}",
+                      "uuid": "709c9591-d85c-4327-b7e2-912c4b2edfa4"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "3. Create a listing for the sale",
+          "item": [
+            {
+              "name": "Create the listing to enable purchase",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.collectionVariables.set(\"Listing_Id\", pm.response.json().id);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"item_id\": \"{{Item_Id}}\",\n    \"quantity_listed\": 20,\n    \"currency\": \"ETH\",\n    \"price\": \"0\",\n    \"payment_providers\": [\n        \"ORGANIZATION\"\n    ],\n    \"max_quantity_per_tx\": 1,\n    \"policy\": {\n        \"max_per_user\": 1\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/listings",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "listings"]
+                }
+              },
+              "response": []
+            }
+          ],
+          "description": "This will create a primary market sale"
+        },
+        {
+          "name": "4. Your Dapp handles the free claim",
+          "item": [
+            {
+              "name": "Generate a purchase intent to create a new mint for a specific wallet",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"listing_id\": \"{{Listing_Id}}\",\n    \"quantity\": 1,\n    \"provider\": \"ORGANIZATION\",\n    \"buyer\": {\n        \"eth_address\": \"<SET_ANY_WALLET_ADDRESS_HERE>\"\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Public_Api_Base_Url}}/v1/purchase-intents",
+                  "host": ["{{Public_Api_Base_Url}}"],
+                  "path": ["v1", "purchase-intents"]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Snapshotting a NFT contract",
+      "item": [
+        {
+          "name": "Request a new snapshot for a specific contract",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "  pm.response.to.have.status(201);",
+                  "  pm.collectionVariables.set(\"Snapshot_Id\", pm.response.json().id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My Snapshot - {{$randomLoremWord}}\",\n  \"criteria\": {\n    \"token_ranges\": [\n      {\n        \"from_id\": \"1\",\n        \"to_id\": \"30\"\n      }\n    ]   \n  },\n  \"contract_address\": \"0xE42caD6fC883877A76A26A16ed92444ab177E306\",\n  \"network_id\": {{Network_Id}},\n  \"token_type\": \"ERC721\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{Admin_Api_Base_Url}}/v1/snapshots",
+              "host": ["{{Admin_Api_Base_Url}}"],
+              "path": ["v1", "snapshots"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Check snapshot generation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Admin_Api_Base_Url}}/v1/snapshots/:snapshot_id",
+              "host": ["{{Admin_Api_Base_Url}}"],
+              "path": ["v1", "snapshots", ":snapshot_id"],
+              "variable": [
+                {
+                  "key": "snapshot_id",
+                  "value": "{{Snapshot_Id}}",
+                  "uuid": "57ca2dd1-a286-4e89-87b9-4ce2e41732e5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get token holders from a snapshot",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{Admin_Api_Base_Url}}/v1/snapshots/:snapshot_id/holders?output_type=PER_TOKEN",
+              "host": ["{{Admin_Api_Base_Url}}"],
+              "path": ["v1", "snapshots", ":snapshot_id", "holders"],
+              "query": [
+                {
+                  "key": "output_type",
+                  "value": "PER_TOKEN"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "snapshot_id",
+                  "value": "{{Snapshot_Id}}",
+                  "uuid": "653ec48a-9b16-43dd-bf46-348f9173a334"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sell multiple NFTs (using ERC721)",
+      "item": [
+        {
+          "name": "1. Create the collection and contract",
+          "item": [
+            {
+              "name": "Create a new collection using a ERC721 contract",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.collectionVariables.set(\"Collection_Id\", pm.response.json().id);",
+                      "  pm.collectionVariables.set(\"Deployment_Transaction_Id\", pm.response.json().deployment.transaction_id);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"KUDOnCHAIN Consensys Core Values  Collection - {{$randomLoremWords}}\",\n    \"description\": \"{{$randomLoremParagraph}}\",\n    \"media\": {\n        \"thumbnail_image_url\": \"https://nftprodstorage.blob.core.windows.net/public/Qma6CMuBBrfxpwfadSDhJS2nGinZWrFjseJRSs5Rqm59nE/phosphor-collection-logo-2.png\"\n    },\n    \"deployment_request\": {\n        \"network_id\": {{Network_Id}},\n        \"type\": \"PLATFORM\",\n        \"token_id_assignment_strategy\": \"AUTOMATIC\",\n        \"platform\": {\n            \"variant\": \"FlexibleERC721\",\n            \"symbol\": \"MY_NFT_CONTRACT_SYMBOL\",\n            \"owner\": \"{{My_Owner_Wallet_Address}}\"\n        }\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/collections",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "collections"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check collection details",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/collections/:collection_id",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "collections", ":collection_id"],
+                  "variable": [
+                    {
+                      "key": "collection_id",
+                      "value": "{{Collection_Id}}",
+                      "uuid": "d4d6031b-a957-43dc-9aa7-1b49e604f4cb"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check contract deployment status",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/collections/:collection_id/deployment-request",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": [
+                    "v1",
+                    "collections",
+                    ":collection_id",
+                    "deployment-request"
+                  ],
+                  "variable": [
+                    {
+                      "key": "collection_id",
+                      "value": "{{Collection_Id}}",
+                      "uuid": "be97af6c-9aeb-41e0-999e-5600f03016fd"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check contract creation transaction details",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/transactions/:transaction_id",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "transactions", ":transaction_id"],
+                  "variable": [
+                    {
+                      "key": "transaction_id",
+                      "value": "{{Deployment_Transaction_Id}}",
+                      "uuid": "07cb897e-a130-4857-a6b0-c281ad83a000"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "2. Add multiple NFT items to the collection",
+          "item": [
+            {
+              "name": "Add new items to collection",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.collectionVariables.set(\"Item_Id\", pm.response.json().id);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"items\": [\n        {\n            \"collection_id\": \"{{Collection_Id}}\",\n            \"attributes\": {\n                \"title\": \"NFT #1\",\n                \"description\": \"{{$randomLoremParagraph}}\",\n                \"any other trait\": \"Any other value\",\n                \"image_url\": \"https://nftprodstorage.blob.core.windows.net/public/QmWJVNmDjj32PPvWyBNRrvT4MEhbEpX1vzsoctteRRcnsq/phosphor-nft-badge-1.png\"\n            }\n        },\n        {\n            \"collection_id\": \"{{Collection_Id}}\",\n            \"attributes\": {\n                \"title\": \"NFT #2\",\n                \"description\": \"{{$randomLoremParagraph}}\",\n                \"any other trait\": \"Any other value\",\n                \"image_url\": \"https://nftprodstorage.blob.core.windows.net/public/QmeAzQdH6eLTsRYcwYf6yM7zc6q37DS9q3eJuD1wpbuUJ1/phosphor-nft-badge-2.png\"\n            }\n        },\n        {\n            \"collection_id\": \"{{Collection_Id}}\",\n            \"attributes\": {\n                \"title\": \"NFT #3\",\n                \"description\": \"{{$randomLoremParagraph}}\",\n                \"any other trait\": \"Any other value\",\n                \"image_url\": \"https://nftprodstorage.blob.core.windows.net/public/QmdCNHe3zYSmTXHcysC1iiQAxEHydQ9dmZ7SroC28Maz3F/phosphor-nft-badge-3.png\"\n            }\n        },\n        {\n            \"collection_id\": \"{{Collection_Id}}\",\n            \"attributes\": {\n                \"title\": \"NFT #4\",\n                \"description\": \"{{$randomLoremParagraph}}\",\n                \"any other trait\": \"Any other value\",\n                \"image_url\": \"https://nftprodstorage.blob.core.windows.net/public/Qmbh7rPgExBHcGoVGgAGfvb4SexYkEcRah44ZiMbwSRqfT/phosphor-nft-badge-4.png\"\n            }\n        },\n        {\n            \"collection_id\": \"{{Collection_Id}}\",\n            \"attributes\": {\n                \"title\": \"NFT #5\",\n                \"description\": \"{{$randomLoremParagraph}}\",\n                \"any other trait\": \"Any other value\",\n                \"image_url\": \"https://nftprodstorage.blob.core.windows.net/public/QmeA3FkJ7aAwMvwX2qzwC5PveFYAvNMxVAAMxxZHqgSWjp/phosphor-nft-badge-5.png\"\n            }\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/items/bulk",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "items", "bulk"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Lock all collection items for the mint",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"collection_id\": \"{{Collection_Id}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/items/lock",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "items", "lock"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Check items details",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/items?collection_id={{Collection_Id}}",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "items"],
+                  "query": [
+                    {
+                      "key": "collection_id",
+                      "value": "{{Collection_Id}}"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "3. Create a listing for the sale",
+          "item": [
+            {
+              "name": "Create the listing to enable purchase",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "  pm.collectionVariables.set(\"Listing_Id\", pm.response.json().id);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"collection_id\": \"{{Collection_Id}}\",\n    \"quantity_listed\": 5,\n    \"price\": \"1000000000000000000\",\n    \"currency\": \"ETH\",\n    \"settlement_currency\": {\n        \"MINT_VOUCHER\": \"ETH\"\n    },\n    \"payment_providers\": [\n        \"MINT_VOUCHER\"\n    ],\n    \"max_quantity_per_tx\": 1,\n    \"policy\": {\n        \"max_per_user\": 1,\n        \"tx_payer\": \"BUYER\"\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Admin_Api_Base_Url}}/v1/listings",
+                  "host": ["{{Admin_Api_Base_Url}}"],
+                  "path": ["v1", "listings"]
+                }
+              },
+              "response": []
+            }
+          ],
+          "description": "This will create a primary market sale"
+        },
+        {
+          "name": "4. Your Dapp generates new purchase/mint intent",
+          "item": [
+            {
+              "name": "Generate a purchase/mint intent to get the secured mint signature",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 201\", function () {",
+                      "  pm.response.to.have.status(201);",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"listing_id\": \"{{Listing_Id}}\",\n    \"quantity\": 1,\n    \"provider\": \"MINT_VOUCHER\",\n    \"buyer\": {\n        \"eth_address\": \"<SET_ANY_WALLET_ADDRESS_HERE>\"\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Public_Api_Base_Url}}/v1/purchase-intents",
+                  "host": ["{{Public_Api_Base_Url}}"],
+                  "path": ["v1", "purchase-intents"]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "value",
+        "value": "{{My_Phosphor_Api_Key}}",
+        "type": "string"
+      },
+      {
+        "key": "key",
+        "value": "Phosphor-Api-Key",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "My_Phosphor_Api_Key",
+      "value": "SET_API_KEY_HERE",
+      "type": "string"
+    },
+    {
+      "key": "My_Owner_Wallet_Address",
+      "value": "SET_CONTRACT_OWNER_ADDRESS_HERE",
+      "type": "string"
+    },
+    {
+      "key": "Admin_Api_Base_Url",
+      "value": "https://admin-api.phosphor.xyz",
+      "type": "string"
+    },
+    {
+      "key": "Public_Api_Base_Url",
+      "value": "https://public-api.phosphor.xyz",
+      "type": "string"
+    },
+    {
+      "key": "Network_Id",
+      "value": "59140",
+      "type": "string"
+    },
+    {
+      "key": "Collection_Id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "Contract_Address",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "Deployment_Transaction_Id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "Mint_Transaction_Id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "Item_Id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "Listing_Id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "Snapshot_Id",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

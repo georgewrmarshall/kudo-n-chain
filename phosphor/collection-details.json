@@ -1,0 +1,17 @@
+{
+  "name": "Consensys Core Values Collection",
+  "description": "A set of Consensys core values",
+  "media": {
+    "thumbnail_image_url": "https://private-user-images.githubusercontent.com/8112138/328314045-ab2f5afe-0edb-4571-846b-ee8c50340276.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTUwMjkwNzgsIm5iZiI6MTcxNTAyODc3OCwicGF0aCI6Ii84MTEyMTM4LzMyODMxNDA0NS1hYjJmNWFmZS0wZWRiLTQ1NzEtODQ2Yi1lZThjNTAzNDAyNzYucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI0MDUwNiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDA1MDZUMjA1MjU4WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZjBmN2IyMjFiMThkYTJiOTMyNGI5YmI1ODNlZDcwYTZjNjRjMWE2ZGM3NTg1YzlmNjQ3NGE3MDgzYmU0MGJmMSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmYWN0b3JfaWQ9MCZrZXlfaWQ9MCZyZXBvX2lkPTAifQ.9GGoO_ZD7Dr6S8mWzUtOvB9qTyjzbln2sN9r6Ctw03k"
+  },
+  "deployment_request": {
+    "network_id": "{{Network_Id}}",
+    "type": "PLATFORM",
+    "token_id_assignment_strategy": "AUTOMATIC",
+    "platform": {
+      "variant": "FlexibleERC1155",
+      "symbol": "KUDONCHAIN_TEST",
+      "owner": "{{My_Owner_Wallet_Address}}"
+    }
+  }
+}
