@@ -1,4 +1,4 @@
-# kudo-n-chain
+# KUDOnCHAIN
 
 Code for [KUDOnCHAIN](https://trello.com/b/MLLNjxEb/kudonchain) hackathon project
 
