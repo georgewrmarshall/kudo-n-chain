@@ -1,0 +1,9 @@
+{
+  "collection_id": "{{Collection_Id}}",
+  "attributes": {
+    "title": "We embrace innovation",
+    "description": "Intrinsic to who we are is the belief that we can, and will, change the world",
+    "value": "Innovation",
+    "image_url": "https://private-user-images.githubusercontent.com/8112138/328311067-ae5fa6d5-86bd-467b-97fa-c4536442b177.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTUwMzEwNzIsIm5iZiI6MTcxNTAzMDc3MiwicGF0aCI6Ii84MTEyMTM4LzMyODMxMTA2Ny1hZTVmYTZkNS04NmJkLTQ2N2ItOTdmYS1jNDUzNjQ0MmIxNzcucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI0MDUwNiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDA1MDZUMjEyNjEyWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ODIyODFiMGJmZDEzZDUzOTk3OWM3NDYyMmI1NTdkMzc1YzJjN2VkNWJlYWNjODUyY2MyY2ZiZDAzNGI1Y2MzYiZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmYWN0b3JfaWQ9MCZrZXlfaWQ9MCZyZXBvX2lkPTAifQ.M4i3hOLq1RJNZ6JwK8N_43nHw2WEJsBKLdru0ApByk4"
+  }
+}
